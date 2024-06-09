@@ -75,6 +75,7 @@ async function setAllCompleted(completed: boolean) {
 
     <main>
       <form
+      v-if="taskRepo.metadata.apiInsertAllowed()"
        @submit.prevent="addTask()">
         <input v-model="newTaskTitle" placeholder="What needs to be done today?" />
         <button>Add New Task</button>
@@ -85,6 +86,7 @@ async function setAllCompleted(completed: boolean) {
         <input v-model="task.title" />
         <button @click="saveTask(task)">Save Task</button>
         <button
+        v-if="taskRepo.metadata.apiDeleteAllowed(task)"
         @click="deleteTask(task)">Delete Task</button>
         <!-- <p>{{ task.title }}</p> -->
       </div>

@@ -18,10 +18,13 @@ export const auth = Router();
 auth.use(express.json())
 
 auth.post("/api/signin", (req,res) => {
-    // const user = validUsers.find(user => user.name === req.body.username);
-    // if(user){
-        req.session!["user"] = req.body.username
-        // res.json(user)
+    const user = validUsers.find(user => user.name === req.body.username)
+    if (user) {
+      req.session!["user"] = user
+      res.json(user)
+    } else {
+      res.status(404).json("Invalid user, try 'Luz'")
+    }
 })
 
 auth.post("/api/signout", (req, res) => {
