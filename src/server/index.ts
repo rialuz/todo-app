@@ -1,7 +1,7 @@
 import express from 'express';
-import { api } from './api';
+import { api } from './api.js';
 import session from 'cookie-session'
-import { auth } from './auth';
+import { auth } from './auth.js';
 import helmet from "helmet"
 import compression from "compression"
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
 import { remult } from 'remult';
-import { Task } from './shared/Task';
-import { TasksController } from './shared/TasksController'
+import { Task } from './shared/Task.js';
+import { TasksController } from './shared/TasksController.js'
 
 const taskRepo = remult.repo(Task);
 const tasks = ref<Task[]>([]);

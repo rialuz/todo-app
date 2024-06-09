@@ -1,5 +1,5 @@
-import { TasksController } from "../shared/TasksController";
-import { Task } from "../shared/Task";
+import { TasksController } from "../shared/TasksController.js";
+import { Task } from "../shared/Task.js";
 import { remultExpress } from "remult/remult-express";
 import { createPostgresDataProvider } from "remult/postgres";
 
