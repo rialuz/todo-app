@@ -1,21 +1,33 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, computed } from 'vue';
 import { remult } from 'remult';
 import { Task } from './shared/Task.js';
 import { TasksController } from './shared/TasksController.js'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 
 const taskRepo = remult.repo(Task);
 const tasks = ref<Task[]>([]);
+
+
 onMounted(() => 
   onUnmounted(
     taskRepo
     .liveQuery({
-      limit:20,
+      limit:10,
       orderBy: {createdAt: "asc"}
     })
-    .subscribe(info => (tasks.value = info.applyChanges(tasks.value)))
+    .subscribe(info =>{(tasks.value = info.applyChanges(tasks.value));
+    })
   )
 )
+
+let isInputToggled = ref(false);
+
+const toggleNewTaskInput = () => {  
+  isInputToggled.value = !isInputToggled.value
+}
+
 
 /**
  * repo.liveQuery  is a realtime updated live query subscription for both
@@ -25,9 +37,9 @@ onMounted(() =>
 const newTaskTitle = ref("");
 const addTask = async () => {
   try {
-    const newTask = await taskRepo.insert({title: newTaskTitle.value})
-    // tasks.value.push(newTask);
-    newTaskTitle.value = ""
+    await taskRepo.insert({title: newTaskTitle.value})
+    newTaskTitle.value = "";
+    toggleNewTaskInput();
   } catch (err: any) {
     alert((err as {message: string}).message)
   }
@@ -70,34 +82,136 @@ async function setAllCompleted(completed: boolean) {
 </script>
 
 <template>
-  <div>
-    <h1>Tasks</h1>
+  <div class="app-container">
+    <div class="header-container">
+      <div style="margin-left: 5px;">
+        <h1>To Do List</h1>
+      </div>
+      
 
-    <main>
+      <button style="margin-right: 5px;" v-if="!isInputToggled" @click="toggleNewTaskInput">Add New Task</button>
+
+      <div class="form-container" v-else>
       <form
+      class="addtask-form"
       v-if="taskRepo.metadata.apiInsertAllowed()"
        @submit.prevent="addTask()">
         <input v-model="newTaskTitle" placeholder="What needs to be done today?" />
-        <button>Add New Task</button>
-      </form>
-
-      <div v-for="task in tasks">
-        <input type="checkbox" v-model="task.completed" @change="saveTask(task)"/>
-        <input v-model="task.title" />
-        <button @click="saveTask(task)">Save Task</button>
-        <button
-        v-if="taskRepo.metadata.apiDeleteAllowed(task)"
-        @click="deleteTask(task)">Delete Task</button>
-        <!-- <p>{{ task.title }}</p> -->
+        <button>Add Task</button>
+      </form>        
       </div>
-      <div>
-  <button @click="setAllCompleted(true)">Set All as Completed</button>
-  <button @click="setAllCompleted(false)">Set All as Uncompleted</button>
-</div>
+
+      
+    </div>
+    
+    <main>
+    <table class="task-table">
+      <tr>
+      <th>Completed</th>
+      <th>Title</th>
+      <th>Update</th>
+      <th v-if="taskRepo.metadata.apiDeleteAllowed()">Delete</th>        
+      </tr>
+      <tr v-for="task in tasks" :key="task.id">
+        <th><input type="checkbox" v-model="task.completed" @change="saveTask(task)"/></th>
+        <th>
+        <input type="text" class="title-input" v-model="task.title" />  
+        </th>
+        <th>
+          <font-awesome-icon
+          :icon="['fas', 'pencil']" 
+          @click="saveTask(task)" />
+        </th>
+        <th>        
+          <font-awesome-icon
+           :icon="['fas', 'trash']"
+            v-if="taskRepo.metadata.apiDeleteAllowed(task)"
+            @click="deleteTask(task)" />
+      </th>
+      </tr>
+
+    </table>      
     </main>
+    <div class="setall-checkboxes-container">
+      <button @click="setAllCompleted(true)">Set All as Completed</button>
+      <button @click="setAllCompleted(false)">Set All as Not Completed</button>
+    </div>
+    
   </div>
 </template>
 
-<style scoped>
+<style>
+
+table{
+  width: -webkit-fill-available;
+  caret-color: transparent;
+}
+
+button {
+        width: 100px;
+        height: 35px;
+        border: none;
+        border-radius: 10%;
+        align-self: center;
+        background-color: rgb(248 166 128);
+}
+input[type="text"] {
+        height: 25px;
+        caret-color:auto;
+}
+
+.title-input {
+  border: none;
+  border-bottom: 1px solid black;
+  background: none;
+  color: white;
+  cursor: pointer;
+}
+
+.title-input:focus-visible {
+  outline: none;
+  border-bottom: 1px solid white;
+}
+
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  flex-direction: column;
+  caret-color: transparent;
+
+  button {
+    align-self: flex-end;
+  }
+
+    .form-container {
+      align-self: flex-end;
+      width: -webkit-fill-available;
+
+      .addtask-form {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+        margin: 0 10px;
+
+        input {
+          width: -webkit-fill-available;
+        }
+
+      }
+    }
+}
+
+.setall-checkboxes-container {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-around;
+      button {
+        width: 160px;
+        caret-color: transparent;
+      }
+}
 
 </style>
