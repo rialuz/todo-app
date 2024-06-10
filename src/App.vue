@@ -14,7 +14,7 @@ onMounted(() =>
   onUnmounted(
     taskRepo
     .liveQuery({
-      limit:10,
+      // limit:10,
       orderBy: {createdAt: "asc"}
     })
     .subscribe(info =>{(tasks.value = info.applyChanges(tasks.value));
