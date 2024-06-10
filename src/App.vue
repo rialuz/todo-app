@@ -113,17 +113,19 @@ async function setAllCompleted(completed: boolean) {
       <th v-if="taskRepo.metadata.apiDeleteAllowed()">Delete</th>        
       </tr>
       <tr v-for="task in tasks" :key="task.id">
-        <th><input type="checkbox" v-model="task.completed" @change="saveTask(task)"/></th>
+        <th><input style="cursor: pointer;" type="checkbox" v-model="task.completed" @change="saveTask(task)"/></th>
         <th>
         <input type="text" class="title-input" v-model="task.title" />  
         </th>
         <th>
           <font-awesome-icon
+          style="cursor: pointer;"
           :icon="['fas', 'pencil']" 
           @click="saveTask(task)" />
         </th>
         <th>        
           <font-awesome-icon
+          style="cursor: pointer;"
            :icon="['fas', 'trash']"
             v-if="taskRepo.metadata.apiDeleteAllowed(task)"
             @click="deleteTask(task)" />
@@ -145,6 +147,18 @@ async function setAllCompleted(completed: boolean) {
 table{
   width: -webkit-fill-available;
   caret-color: transparent;
+  
+}
+
+table, th, td {
+  border: 1px solid white;
+  border-collapse: collapse;
+  margin: 10px 10px;
+}
+
+th{
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 button {
@@ -154,6 +168,7 @@ button {
         border-radius: 10%;
         align-self: center;
         background-color: rgb(248 166 128);
+        cursor: pointer;
 }
 input[type="text"] {
         height: 25px;
@@ -211,6 +226,7 @@ input[type="text"] {
       button {
         width: 160px;
         caret-color: transparent;
+        cursor: pointer;
       }
 }
 
