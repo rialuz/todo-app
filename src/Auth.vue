@@ -42,14 +42,14 @@ onMounted( async () => {
 <template>
         <div v-if="!signedIn" class="signin-container">
         <h1>To Do List</h1>
-        <p>Sign in with the username 'Luz' to experience admin access.</p>
-        <p>Sign in with the username 'Wil' to experience non-admin access.</p>
+        <p>Sign in with the username 'Luz' to experience admin access. Users with admin access have the ability to create new tasks and delete tasks.</p>
+        <p>Sign in with the username 'User' to experience non-admin access.</p>
         <main>
             <form @submit.prevent="signIn()" class="signin-form">
                 <input
                     class="input-signin"
                     v-model="username"
-                    placeholder="Sign in with your name"
+                    placeholder="Sign in"
                 />
                 <button>Sign In</button>
             </form>

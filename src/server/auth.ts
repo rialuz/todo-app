@@ -9,7 +9,7 @@ const validUsers: UserInfo[] = [
     },
     {
         id: "2",
-        name: "Wil", 
+        name: "User", 
     }
 ];
 
@@ -23,7 +23,7 @@ auth.post("/api/signin", (req,res) => {
       req.session!["user"] = user
       res.json(user)
     } else {
-      res.status(404).json("Invalid user, try 'Luz'")
+      res.status(404).json("Invalid user, try 'Luz' or 'User")
     }
 })
 
