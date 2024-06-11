@@ -89,7 +89,7 @@ async function setAllCompleted(completed: boolean) {
       </div>
       
 
-      <button style="margin-right: 5px;" v-if="!isInputToggled" @click="toggleNewTaskInput">Add New Task</button>
+      <button style="margin-right: 5px;" v-if=" taskRepo.metadata.apiInsertAllowed() && !isInputToggled" @click="toggleNewTaskInput">Add New Task</button>
 
       <div class="form-container" v-else>
       <form
@@ -109,25 +109,26 @@ async function setAllCompleted(completed: boolean) {
       <tr>
       <th>Completed</th>
       <th>Title</th>
-      <th>Update</th>
+      <th v-if="taskRepo.metadata.apiInsertAllowed()">Update</th>
       <th v-if="taskRepo.metadata.apiDeleteAllowed()">Delete</th>        
       </tr>
       <tr v-for="task in tasks" :key="task.id">
         <th><input style="cursor: pointer;" type="checkbox" v-model="task.completed" @change="saveTask(task)"/></th>
-        <th>
+        <th v-if="taskRepo.metadata.apiInsertAllowed()">
         <input type="text" class="title-input" v-model="task.title" />  
         </th>
-        <th>
+        <th v-else>{{ task.title }}</th>
+        <th v-if="taskRepo.metadata.apiInsertAllowed()">
           <font-awesome-icon
           style="cursor: pointer;"
           :icon="['fas', 'pencil']" 
           @click="saveTask(task)" />
         </th>
-        <th>        
+        <th v-if="taskRepo.metadata.apiDeleteAllowed(task)">        
           <font-awesome-icon
           style="cursor: pointer;"
            :icon="['fas', 'trash']"
-            v-if="taskRepo.metadata.apiDeleteAllowed(task)"
+            
             @click="deleteTask(task)" />
       </th>
       </tr>
@@ -165,7 +166,7 @@ button {
         width: 100px;
         height: 35px;
         border: none;
-        border-radius: 10%;
+        s: 10%;
         align-self: center;
         background-color: rgb(248 166 128);
         cursor: pointer;
@@ -221,12 +222,15 @@ input[type="text"] {
 .setall-checkboxes-container {
   margin-top: 25px;
   margin-bottom: 10px;
+  margin: 25px 10px 10px 10px;
   display: flex;
   justify-content: space-around;
+  gap: 5px;
       button {
         width: 160px;
         caret-color: transparent;
         cursor: pointer;
+        border-radius: 5px
       }
 }
 

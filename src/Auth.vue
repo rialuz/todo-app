@@ -111,7 +111,7 @@ onMounted( async () => {
     button {
         width: 80px;
         height: 30px;
-        border-radius: 10%;
+        border-radius: 5px;
         border: none;
         align-self: center;
         background-color: rgb(248 166 128);
@@ -135,7 +135,7 @@ onMounted( async () => {
     button {
         width: 80px;
         height: 30px;
-        border-radius: 10%;
+        border-radius: 5px;
         align-self: center;
         background-color: rgb(248 166 128);
         border: none;
