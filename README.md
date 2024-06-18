@@ -1,18 +1,19 @@
 # ToDoApp
 
-This template should help get you started developing with Vue 3 in Vite.
+Deployed at https://todo-app-to0v.onrender.com
 
-## Recommended IDE Setup
+To Do Application. Please follow the instructions on the main page and sign in as 'Luz' to experience admin controls or 'User' to sign in to experience non-admin controls. 
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Admin users are able to view, create, update, and delete tasks.
 
-## Type Support for `.vue` Imports in TS
+- Non-Admin users are only able to view tasks and update the completed status of a task.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+I worked on this project to practice creating a REST API with Node.js, Express, and Remult.
 
-## Customize configuration
+Remult is a fullstack CRUD framework that uses Typescript modal types to provide a secure REST API, type-safe frontend API client, and a type-safe backend query builder.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Credits
+[Remult Tutorial](https://remult.dev/tutorials/vue/) 
 
 ## Project Setup
 
